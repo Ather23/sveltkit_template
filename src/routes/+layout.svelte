@@ -1,8 +1,7 @@
 <script>
-import "../app.css";
-import { ModeWatcher } from "mode-watcher";
-
+	import { Sidebar } from 'flowbite-svelte';
+	import '../app.css';
 </script>
-<ModeWatcher defaultMode={"dark"}/>
 
+<Sidebar></Sidebar>
 <slot />
