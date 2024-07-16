@@ -23,10 +23,8 @@
 		PaperPlaneOutline
 	} from 'flowbite-svelte-icons';
 	import { afterUpdate, onMount } from 'svelte';
-	import NotesCard from '$lib/components/NotesCard.svelte';
 
 	import { draggable } from '@neodrag/svelte';
-	import Chat from '$lib/components/chat/Chat.svelte';
 
 	let openAiConfig = new OpenAiConfig('gpt-4', '');
 	let openAiChatService = new OpenAIChatWrapper(openAiConfig);
@@ -85,24 +83,48 @@
 	function renderHistory() {
 		chatHistory = chatSession.getChatMessages();
 	}
-
-	let hidden = false;
 </script>
 
-<div class="absolute end-6 bottom-6 w-1/4 h-3/4">
-	<div class="end-10 bottom-15 w-3/4 h-3/4">
-		{#if !hidden}
-			<Chat />
-		{/if}
-	</div>
-
-	<div class="absolute end-6 bottom-6">
-		<Button on:click={() => (hidden = !hidden)}>Chat</Button>
-	</div>
+<div
+	class="text-lime-600 p-2 max-h-[75vh] overflow-y-auto overflow-x-hidden w-full h-full"
+	bind:this={chatContainer}
+>
+	{#if chatHistory}
+		{#each chatHistory as hist}
+			<ChatMessageDisplay chatMessage={hist} />
+		{/each}
+	{/if}
+	{#key agentResponse}
+		<ChatMessageDisplay chatMessage={agentResponse} />
+	{/key}
 </div>
-
-<div use:draggable>
-	<NotesCard />
+<div class="w-full h-fullfull">
+	<form class="h- w-full">
+		<label for="editor" class="sr-only">Publish post</label>
+		<Textarea
+			id="editor"
+			rows="5"
+			class="mb-4"
+			placeholder="Write a comment"
+			bind:value={userInput}
+		>
+			<Toolbar slot="header" embedded>
+				<ToolbarGroup>
+					<ToolbarButton name="Attach file"
+						><PaperClipOutline class="w-6 h-6 rotate-45" /></ToolbarButton
+					>
+					<ToolbarButton name="Embed map"><MapPinAltSolid class="w-6 h-6" /></ToolbarButton>
+				</ToolbarGroup>
+				<ToolbarGroup>
+					<ToolbarButton name="Format code"><CodeOutline class="w-6 h-6" /></ToolbarButton>
+					<ToolbarButton name="Add emoji"><FaceGrinOutline class="w-6 h-6" /></ToolbarButton>
+				</ToolbarGroup>
+				<ToolbarButton name="send" slot="end" on:click={callAiAgent}
+					><PaperPlaneOutline class="w-6 h-6 rotate-45" /></ToolbarButton
+				>
+			</Toolbar>
+		</Textarea>
+	</form>
 </div>
 
 <style>
