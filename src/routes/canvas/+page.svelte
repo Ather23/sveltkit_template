@@ -14,10 +14,8 @@
 		<Button on:click={() => toggleDiv()}>Chat</Button>
 
 		{#if isOpen}
-			<div
-				class="bg-opacity-0 resize absolute bottom-full right-0 mb-2 w-[80vh] shadow-lg h-[80vh] p-4"
-			>
-				<div>
+			<div class="bg-opacity-0 resize absolute bottom-full right-0 mb-2 w-[80vh] shadow-lg p-4">
+				<div class="absolute bottom-0 right-0.5 w-full items-center">
 					<Chat />
 				</div>
 			</div>

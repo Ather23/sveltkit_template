@@ -56,8 +56,8 @@
 			agentResponse.updateMessage(prediction.message);
 			agentResponse = agentResponse;
 		}
-		console.log('agentresponse', agentResponse);
 		chatSession.addChatMessage(agentResponse);
+		userInput = '';
 	}
 
 	let chatContainer: HTMLDivElement | null = null;
@@ -65,7 +65,6 @@
 	// Scroll to bottom function
 	function scrollToBottom() {
 		if (chatContainer) {
-			console.log('scrolling..');
 			chatContainer.scrollTop = chatContainer.scrollHeight;
 		}
 	}
@@ -86,20 +85,22 @@
 </script>
 
 <div
-	class="text-lime-600 p-2 max-h-[75vh] overflow-y-auto overflow-x-hidden w-full h-full"
+	class="text-lime-600 p-2 max-h-[50vh] overflow-y-auto overflow-x-hidden w-full"
 	bind:this={chatContainer}
 >
 	{#if chatHistory}
 		{#each chatHistory as hist}
-			<ChatMessageDisplay chatMessage={hist} />
+			{#if hist.getMessageFrom().role !== Role.SYSTEM}
+				<ChatMessageDisplay chatMessage={hist} />
+			{/if}
 		{/each}
 	{/if}
 	{#key agentResponse}
 		<ChatMessageDisplay chatMessage={agentResponse} />
 	{/key}
 </div>
-<div class="w-full h-fullfull">
-	<form class="h- w-full">
+<div class="w-full h-full">
+	<form class="h-full w-full">
 		<label for="editor" class="sr-only">Publish post</label>
 		<Textarea
 			id="editor"
@@ -108,7 +109,7 @@
 			placeholder="Write a comment"
 			bind:value={userInput}
 		>
-			<Toolbar slot="header" embedded>
+			<Toolbar slot="footer" embedded>
 				<ToolbarGroup>
 					<ToolbarButton name="Attach file"
 						><PaperClipOutline class="w-6 h-6 rotate-45" /></ToolbarButton

@@ -14,17 +14,17 @@
 
 <div>
 	{#if chatMessage && chatMessage.getMessageFrom().getIsAgent()}
-		<div class="bg-gray-800 rounded-md mb-2 item-center">
+		<div class="bg-gray-900 rounded-md mb-2 item-center">
 			{#key chatMessage}
 				{#if chatMessage && chatMessage.getMessage()}
-					<div class="p-1">
+					<div class="p-1 text-lime-400">
 						<Markdown {carta} value={chatMessage.getMessage()} />
 					</div>
 				{/if}
 			{/key}
 		</div>
 	{:else}
-		<div class="text-white bg-gray-800 rounded-md mb-2 item-center">
+		<div class="text-white bg-gray-900 rounded-md mb-2 item-center">
 			{#if chatMessage && chatMessage.getMessage()}
 				{#key chatMessage}
 					<div class="p-1"><Markdown {carta} value={chatMessage.getMessage()} /></div>

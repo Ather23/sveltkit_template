@@ -60,6 +60,7 @@
 		}
 		console.log('agentresponse', agentResponse);
 		chatSession.addChatMessage(agentResponse);
+		userInput = '';
 	}
 
 	let chatContainer: HTMLDivElement | null = null;
